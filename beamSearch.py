@@ -46,17 +46,15 @@ class K_Best:
 	def get_data(self):
 		return self.data
 
-
-
 # Run the beam search on the DNA sequence list
-def main(args):
-
+def beam_search(file, verbose=False):
 	print("Loading DNA sequences.")
-	sequenceList = reader.read("data/hm01r.fasta")
+	sequenceList = reader.read(file)
 
 	print("Beginning Beam Search Algorithm for Motif Finding")
 	print("    Motif Length: {}".format(L))
 	print("    Number of Sequences: {}".format(len(sequenceList)))
+	print("    K: {}".format(K))
 
 	start_time = time.time()
 
@@ -85,8 +83,6 @@ def main(args):
 	
 	for k in range(len(sequenceList)-2):
 		curr_seq = sequenceList[k+2]
-		# highest_IC = 0
-		# best_motif = None
 		curr_best_k = K_Best(K)
 
 		for p in range(len(curr_seq)-L+1):
@@ -99,12 +95,8 @@ def main(args):
 				PWM = utils.position_weight_matrix(PM, k+3)
 				IC = utils.information_content(PWM, base_probs, L)
 
-				# if IC > highest_IC:
-				# 	highest_IC = IC
-				# 	best_motif = motif_k
 				curr_best_k.add(IC, motif_list)
 
-		# best_motif_list.append(best_motif)
 		prev_best_k = curr_best_k
 
 
@@ -123,10 +115,19 @@ def main(args):
 	print("    Information Content: {}".format(final_IC))
 	print("    Elapsed Time: {} seconds".format(elapsed_time))
 	
-	# for i in range(len(best_motif_list)):
-	# 	print(best_motif_list[i])
-	# print(final_PM)
-	# print(final_PWM)
+	if verbose:
+		for i in range(len(best_motif_list)):
+			print(best_motif_list[i])
+		print(final_PM)
+		print(final_PWM)
+
+	return consensus_motif
+
+
+# Call the helper function to run the beam search
+def main(args):
+
+	motif = beam_search("data/hm01r.fasta")
 	
 
 

@@ -14,12 +14,10 @@ import sequenceReader as reader
 L = 8
 BASE_DICT = {0: "A", 1: "C", 2: "G", 3: "T"}
 
-
 # Run the greedy search on the DNA sequence list
-def main(args):
-
+def greedy_search(file, verbose=False):
 	print("Loading DNA sequences.")
-	sequenceList = reader.read("data/hm01r.fasta")
+	sequenceList = reader.read(file)
 
 	print("Beginning Greedy Algorithm for Motif Finding")
 	print("    Motif Length: {}".format(L))
@@ -81,10 +79,19 @@ def main(args):
 	print("    Information Content: {}".format(final_IC))
 	print("    Elapsed Time: {} seconds".format(elapsed_time))
 	
-	# for i in range(len(best_motif_list)):
-	# 	print(best_motif_list[i])
-	# print(final_PM)
-	# print(final_PWM)
+	if verbose:
+		for i in range(len(best_motif_list)):
+			print(best_motif_list[i])
+		print(final_PM)
+		print(final_PWM)
+
+	return best_motif_list
+
+
+# Call the function that runs the greedy search
+def main(args):
+
+	motif_list = greedy_search("data/hm01r.fasta")
 	
 
 
