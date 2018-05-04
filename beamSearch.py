@@ -11,7 +11,7 @@ import sequenceReader as reader
 	Description: This file implements the Beam Search algorithm for motif finding
 """
 
-L = 8
+LENGTH = 8
 K = 10
 BASE_DICT = {0: "A", 1: "C", 2: "G", 3: "T"}
 
@@ -47,7 +47,7 @@ class K_Best:
 		return self.data
 
 # Run the beam search on the DNA sequence list
-def beam_search(file, verbose=False):
+def beam_search(file, L, K, verbose=False):
 	print("Loading DNA sequences.")
 	sequenceList = reader.read(file)
 
@@ -121,13 +121,13 @@ def beam_search(file, verbose=False):
 		print(final_PM)
 		print(final_PWM)
 
-	return consensus_motif
+	return consensus_motif, final_IC, elapsed_time
 
 
 # Call the helper function to run the beam search
 def main(args):
 
-	motif = beam_search("data/hm01r.fasta")
+	motif, IC, time = beam_search("data/hm01r.fasta", LENGTH, K)
 	
 
 

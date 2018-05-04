@@ -11,11 +11,11 @@ import sequenceReader as reader
 	Description: This file implements the Greedy Search algorithm for motif finding
 """
 
-L = 8
+LENGTH = 8
 BASE_DICT = {0: "A", 1: "C", 2: "G", 3: "T"}
 
 # Run the greedy search on the DNA sequence list
-def greedy_search(file, verbose=False):
+def greedy_search(file, L, verbose=False):
 	print("Loading DNA sequences.")
 	sequenceList = reader.read(file)
 
@@ -85,13 +85,13 @@ def greedy_search(file, verbose=False):
 		print(final_PM)
 		print(final_PWM)
 
-	return best_motif_list
+	return best_motif_list, consensus_motif, final_IC, elapsed_time
 
 
 # Call the function that runs the greedy search
 def main(args):
 
-	motif_list = greedy_search("data/hm01r.fasta")
+	motif_list, motif, IC, time = greedy_search("data/hm01r.fasta", LENGTH)
 	
 
 

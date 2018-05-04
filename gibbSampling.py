@@ -12,8 +12,9 @@ import greedySearch as greedy
 	Description: This file implements the Gibb Sampling algorithm for motif finding
 """
 
-L = 8
+LENGTH = 8
 T = 500
+INIT = None
 BASE_DICT = {0: "A", 1: "C", 2: "G", 3: "T"}
 
 
@@ -45,7 +46,7 @@ def sample(probs):
 	return p
 
 
-def gibbs_sampling(file, init=None, verbose=False):
+def gibbs_sampling(file, L, T, init=None, verbose=False):
 	print("Loading DNA sequences.")
 	sequenceList = reader.read(file)
 
@@ -65,7 +66,7 @@ def gibbs_sampling(file, init=None, verbose=False):
 	base_probs = utils.base_probabilities(sequenceList)
 
 	if init == "greedy":
-		motif_list = greedy.greedy_search(file)
+		motif_list, motif, IC, total_time = greedy.greedy_search(file, L)
 	else:
 		starting_positions = []
 		for s in range(len(sequenceList)):
@@ -105,7 +106,6 @@ def gibbs_sampling(file, init=None, verbose=False):
 
 		if IC > highest_IC:
 			highest_IC = IC
-			print(IC)
 			best_motif_list = motif_list.copy()
 
 
@@ -128,13 +128,13 @@ def gibbs_sampling(file, init=None, verbose=False):
 		print(final_PM)
 		print(final_PWM)
 
-	return consensus_motif
+	return consensus_motif, final_IC, elapsed_time
 
 
 # Run the gibbs sampling algorithm h on the DNA sequence list
 def main(args):
 
-	motif = gibbs_sampling("data/hm01r.fasta", init="greedy")
+	motif, IC, time = gibbs_sampling("data/hm01r.fasta", LENGTH, T, init=INIT)
 	
 
 if __name__=="__main__":
