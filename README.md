@@ -10,4 +10,4 @@ To run the experiments that I ran for the report, use the command "python experi
 
 ## More Information
 
-An explanation of the motif-finding problem and the algorithms I used, as well as my results and discussion, can be found in my final report, which is also in this repository as a PDF document.
+An explanation of the motif-finding problem and the algorithms I used, as well as my results and discussion, can be found in my final report, which is also in this repository as a PDF document.  The data I used can be found in the data folder, and my result plots are in the results folder.
